@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Empleados</title>
+
+    <link rel="stylesheet" href="empleados.css">
+
+    <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+    >
+
+</head>
+
+<body>
+
+<div class="container">
+
+    <!-- SIDEBAR -->
+
+    <aside class="sidebar">
+
+        <div class="logo">
+
+            <i class="fa-solid fa-qrcode"></i>
+
+            <h2>AsistenciaPro</h2>
+
+        </div>
+
+        <nav>
+
+            <ul>
+
+                <li>
+                    <a href="dashboard.html">
+
+                        <i class="fa-solid fa-house"></i>
+
+                        Dashboard
+
+                    </a>
+                </li>
+
+                <li class="active">
+                    <a href="empleados.html">
+
+                        <i class="fa-solid fa-users"></i>
+
+                        Empleados
+
+                    </a>
+                </li>
+
+                <li>
+                    <a href="scanner.html">
+
+                        <i class="fa-solid fa-camera"></i>
+
+                        Escáner QR
+
+                    </a>
+                </li>
+
+            </ul>
+
+        </nav>
+
+    </aside>
+
+    <!-- MAIN -->
+
+    <main class="main-content">
+
+        <div class="header">
+
+            <div>
+
+                <h1>
+                    Gestión de empleados
+                </h1>
+
+                <p>
+                    Administre empleados y códigos QR
+                </p>
+
+            </div>
+
+            <a href="/logout">
+
+                <button class="logout-btn">
+
+                    <i class="fa-solid fa-right-from-bracket"></i>
+
+                    Cerrar sesión
+
+                </button>
+
+            </a>
+
+        </div>
+
+        <!-- FORM -->
+
+        <section class="section">
+
+            <h2>
+                Agregar empleado
+            </h2>
+
+            <div class="form-grid">
+
+                <input
+                        type="text"
+                        id="nombre"
+                        placeholder="Nombre"
+                >
+
+                <input
+                        type="text"
+                        id="documento"
+                        placeholder="Documento"
+                >
+
+                <input
+                        type="text"
+                        id="cargo"
+                        placeholder="Cargo"
+                >
+
+                <button
+                        class="guardar-btn"
+                        onclick="guardarEmpleado()"
+                >
+                    Guardar
+                </button>
+
+            </div>
+
+        </section>
+
+        <!-- TABLA -->
+
+        <section class="section">
+
+            <div class="table-header">
+
+                <h2>
+                    Lista de empleados
+                </h2>
+
+                <input
+                        type="text"
+                        id="buscar"
+                        placeholder="Buscar empleado..."
+                        onkeyup="buscarEmpleado()"
+                >
+
+            </div>
+
+            <table>
+
+                <thead>
+
+                <tr>
+
+                    <th>ID</th>
+                    <th>Nombre</th>
+                    <th>Documento</th>
+                    <th>Cargo</th>
+                    <th>Acciones</th>
+
+                </tr>
+
+                </thead>
+
+                <tbody id="tablaEmpleados"></tbody>
+
+            </table>
+
+        </section>
+
+    </main>
+
+</div>
+
+<script src="empleados.js"></script>
+
+</body>
+
+</html>

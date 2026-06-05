@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Control de Asistencia</title>
+
+    <link rel="stylesheet" href="styles.css">
+
+    <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+    >
+</head>
+
+<body class="login-body">
+
+<div class="overlay"></div>
+
+<div class="login-card">
+
+    <div class="logo-area">
+
+        <i class="fa-solid fa-qrcode"></i>
+
+        <h1>Control de Asistencia</h1>
+
+        <p>
+            Acceso seguro para empleados y administradores
+        </p>
+
+    </div>
+
+    <div id="mensajeError" class="error"></div>
+
+    <form action="/login" method="post">
+
+        <div class="input-group">
+
+            <i class="fa-solid fa-user"></i>
+
+            <input
+                    type="text"
+                    name="username"
+                    placeholder="Usuario"
+                    required
+            >
+
+        </div>
+
+        <div class="input-group">
+
+            <i class="fa-solid fa-lock"></i>
+
+            <input
+                    type="password"
+                    name="password"
+                    placeholder="Contraseña"
+                    required
+            >
+
+        </div>
+
+        <button type="submit">
+            Ingresar al sistema
+        </button>
+
+    </form>
+
+    <div class="footer-login">
+
+        <span id="reloj"></span>
+
+    </div>
+
+</div>
+
+<script>
+
+    const params =
+        new URLSearchParams(window.location.search);
+
+    if(params.get("error")){
+
+        const mensaje =
+            document.getElementById("mensajeError");
+
+        mensaje.style.display = "block";
+
+        mensaje.innerText =
+            "Credenciales incorrectas";
+    }
+
+    function actualizarReloj(){
+
+        const ahora = new Date();
+
+        document.getElementById("reloj")
+            .innerText =
+            ahora.toLocaleString();
+    }
+
+    setInterval(actualizarReloj, 1000);
+
+</script>
+
+</body>
+</html>

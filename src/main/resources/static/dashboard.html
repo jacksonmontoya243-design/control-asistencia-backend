@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+
+    <link rel="stylesheet" href="/dashboard.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+</head>
+<body>
+
+<div class="dashboard">
+
+    <!-- SIDEBAR -->
+
+    <div class="sidebar">
+
+        <div class="logo">
+
+            <i class="fa-solid fa-qrcode"></i>
+
+            <h2>AsistenciaPro</h2>
+
+        </div>
+
+        <ul>
+
+            <li class="active">
+                <i class="fa-solid fa-house"></i>
+                Inicio
+            </li>
+
+            <li>
+
+                <a href="empleados.html">
+
+                    <i class="fa-solid fa-users"></i>
+
+                    Empleados
+
+                </a>
+
+            </li>
+            <li>
+
+                <a href="scanner.html">
+
+                    <i class="fa-solid fa-camera"></i>
+
+                    Escáner QR
+
+                </a>
+
+            </li>
+
+            <li>
+                <i class="fa-solid fa-chart-column"></i>
+                Reportes
+            </li>
+
+            <li>
+                <i class="fa-solid fa-gear"></i>
+                Configuración
+            </li>
+
+        </ul>
+
+        <a href="/logout">
+            <button class="logout-btn">
+
+                <i class="fa-solid fa-right-from-bracket"></i>
+
+                Cerrar sesión
+
+            </button>
+        </a>
+
+    </div>
+
+    <!-- CONTENIDO -->
+
+    <div class="main-content">
+
+        <!-- HEADER -->
+
+        <div class="topbar">
+            <div class="hero-banner">
+
+                <div class="hero-info">
+
+                    <h1>
+                        Sistema Inteligente de Control de Asistencia
+                    </h1>
+
+                    <p>
+                        Administra empleados, registra asistencias
+                        mediante QR y supervisa la actividad en tiempo real.
+                    </p>
+
+                    <a href="scanner.html">
+
+                        <button class="hero-btn">
+
+                            <i class="fa-solid fa-qrcode"></i>
+
+                            Abrir escáner QR
+
+                        </button>
+
+                    </a>
+
+                </div>
+
+                <div class="hero-image">
+
+                    <img
+                            src="https://cdn-icons-png.flaticon.com/512/2920/2920349.png"
+                            alt="QR"
+                    >
+
+                </div>
+
+            </div>
+
+            <div>
+
+                <h1>
+                    Bienvenido al sistema
+                </h1>
+
+                <p>
+                    Gestión inteligente de asistencia
+                </p>
+
+            </div>
+
+            <div class="topbar-right">
+
+                <span id="relojDashboard"></span>
+
+            </div>
+
+        </div>
+
+        <!-- HERO -->
+
+        <div class="hero">
+
+            <div class="hero-text">
+
+                <h2>
+                    Control de empleados en tiempo real
+                </h2>
+
+                <p>
+                    Supervisa entradas, salidas y asistencias
+                    mediante tecnología QR.
+                </p>
+
+            </div>
+
+        </div>
+
+        <!-- TARJETAS -->
+
+        <div class="cards">
+
+            <div class="card blue">
+
+                <i class="fa-solid fa-users"></i>
+
+                <h3>Total empleados</h3>
+
+                <span id="totalEmpleados">0</span>
+
+            </div>
+
+            <div class="card purple">
+
+                <i class="fa-solid fa-user-shield"></i>
+
+                <h3>Administradores</h3>
+
+                <span id="totalAdmins">0</span>
+
+            </div>
+
+            <div class="card green">
+
+                <i class="fa-solid fa-user-check"></i>
+
+                <h3>Supervisores</h3>
+
+                <span id="totalSupervisores">0</span>
+
+            </div>
+
+        </div>
+
+
+        <script src="app.js"></script>
+
+        <script>
+
+            function actualizarReloj(){
+
+                const ahora = new Date();
+
+                document.getElementById(
+                    "relojDashboard"
+                ).innerText =
+                    ahora.toLocaleString();
+            }
+
+            setInterval(actualizarReloj, 1000);
+
+        </script>
+
+    </div> <!-- cierre main-content -->
+
+</div> <!-- cierre dashboard -->
+
+</body>
+</html>
