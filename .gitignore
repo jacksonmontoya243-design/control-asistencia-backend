@@ -1,5 +1,10 @@
+# Archivos de ayuda
 HELP.md
+
+# Directorios de compilación
 target/
+build/
+dist/
 .mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
 !**/src/test/**/target/
@@ -22,12 +27,49 @@ target/
 ### NetBeans ###
 /nbproject/private/
 /nbbuild/
-/dist/
 /nbdist/
+/nbassistant/
 /.nb-gradle/
-build/
-!**/src/main/**/build/
-!**/src/test/**/build/
 
 ### VS Code ###
 .vscode/
+
+### Node.js ###
+node_modules/
+frontend-asistencia/node_modules/
+frontend-asistencia/dist/
+frontend-asistencia/build/
+
+### Archivos de entorno y credenciales ###
+.env
+.env.*
+!.env.example
+*.env
+application-local.properties
+application-secret.properties
+*.pem
+*.key
+*.p12
+*.jks
+*.keystore
+
+### Archivos de configuración sensibles ###
+*.properties.local
+*.yml.local
+*.yaml.local
+
+### Logs ###
+*.log
+logs/
+
+### Archivos temporales ###
+*.tmp
+*.temp
+*.swp
+*~
+.DS_Store
+Thumbs.db
+
+### Archivos de correo y enlaces ###
+*.eml
+enlace_repositorio.txt.txt
