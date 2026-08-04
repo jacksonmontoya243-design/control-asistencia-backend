@@ -1,194 +1,149 @@
 # 🚀 Sistema Inteligente de Control de Asistencia
 
----
+## 📋 Descripción
 
-## 📋 Descripción del Proyecto
+Aplicación web para el registro y seguimiento de entradas y salidas del personal. Permite gestionar empleados mediante operaciones **CRUD** y automatizar el control de asistencia con **códigos QR individuales**, usando una arquitectura **Full-Stack** moderna.
 
-El **Sistema Inteligente de Control de Asistencia** es una aplicación web desarrollada para optimizar el registro y seguimiento de entradas y salidas del personal dentro de una organización.
+## 🛠️ Tecnologías
 
-La solución permite gestionar la información de los empleados mediante operaciones **CRUD** y automatizar el control de asistencia mediante la generación de **códigos QR individuales**, empleando una arquitectura **Full-Stack moderna** que separa la lógica del backend del cliente web.
+| Capa | Tecnologías |
+| ---- | ----------- |
+| **Backend** | Java 17, Spring Boot, Spring Data JPA, Spring Security, Maven, MySQL |
+| **Frontend** | React (Vite), Axios, React Router DOM, CSS3 |
+| **Complementos** | Git, GitHub, ZXing (QR) |
 
----
+## 💡 Funcionalidades
 
-## 🎯 Objetivo
+- **Gestión de Empleados:** CRUD completo con tablas dinámicas.
+- **Asistencia:** Generación automática de códigos QR por empleado.
+- **Dashboard:** Estadísticas de empleados, supervisores y administradores en tiempo real.
+- **Seguridad:** Autenticación con Spring Security.
 
-Desarrollar un sistema que permita administrar la información de los empleados y apoyar el proceso de control de asistencia mediante tecnologías modernas de desarrollo de software, garantizando:
-
-* Escalabilidad
-* Seguridad
-* Facilidad de mantenimiento
-* Experiencia de usuario dinámica
-
----
-
-## 🛠️ Tecnologías Utilizadas
-
-### Backend
-
-| Tecnología             | Uso                       |
-| ---------------------- | ------------------------- |
-| Java 17                | Lenguaje principal        |
-| Spring Boot            | Desarrollo de API REST    |
-| Spring Data JPA / JDBC | Persistencia de datos     |
-| Maven                  | Gestión de dependencias   |
-| Spring Security        | Seguridad y autenticación |
-| MySQL                  | Base de datos             |
-
-### Frontend
-
-| Tecnología       | Uso                 |
-| ---------------- | ------------------- |
-| React (Vite)     | Interfaz de usuario |
-| Axios            | Consumo de API REST |
-| React Router DOM | Navegación          |
-| CSS3             | Diseño responsivo   |
-
-### Herramientas Complementarias
-
-* Git
-* GitHub
-* ZXing (Zebra Crossing) para generación de códigos QR
-
----
-
-## 💡 Funcionalidades Implementadas
-
-### 👨‍💼 Gestión de Empleados
-
-✔ Crear empleados
-
-✔ Consultar empleados
-
-✔ Actualizar información
-
-✔ Eliminar registros
-
-✔ Visualización mediante tablas dinámicas
-
-✔ Consumo de datos mediante Axios
-
----
-
-### 📱 Gestión de Asistencia
-
-✔ Generación automática de códigos QR
-
-✔ Identificación individual por empleado
-
-✔ Administración centralizada de registros
-
----
-
-### 📊 Dashboard Dinámico
-
-✔ Estadísticas de empleados
-
-✔ Estadísticas de supervisores
-
-✔ Estadísticas de administradores
-
-✔ Consultas en tiempo real a la base de datos
-
----
-
-### 🔒 Seguridad
-
-✔ Configuración de autenticación mediante Spring Security
-
-✔ Protección de rutas y recursos
-
----
-
-## 📂 Estructura del Repositorio
+## 📂 Estructura
 
 ```plaintext
-Sistema-Control-Asistencia
-│
-├── control-asistencia-backend/
+control-asistencia-backend/
 │   └── API REST - Spring Boot
-│
-└── frontend-asistencia/
+frontend-asistencia/
     └── Aplicación Web - React + Vite
 ```
 
----
-
-## 🏗️ Arquitectura Implementada
+## 🏗️ Arquitectura
 
 ```text
-┌─────────────────┐
-│ Frontend React  │
-└────────┬────────┘
-         │
-         ▼
-┌─────────────────┐
-│ API REST        │
-│ Spring Boot     │
-└────────┬────────┘
-         │
-         ▼
-┌─────────────────┐
-│ Service Layer   │
-└────────┬────────┘
-         │
-         ▼
-┌─────────────────┐
-│ Repository Layer│
-└────────┬────────┘
-         │
-         ▼
-┌─────────────────┐
-│ MySQL Database  │
-└─────────────────┘
+Frontend React → API REST (Spring Boot) → Service Layer → Repository Layer → MySQL
 ```
 
-### Capas del Sistema
+## 📋 Auditoría del Proyecto
 
-**Frontend (SPA - React)**
+> **Fecha:** 8 de abril de 2026
 
-* Consume la API REST.
-* Gestiona el estado de la aplicación.
+### Resumen Ejecutivo
 
-**API REST (Spring Boot)**
+| Aspecto | Estado | Observación |
+| ------- | ------ | ----------- |
+| Arquitectura | ✅ | Separación clara por capas |
+| Compilación | ✅ | Maven, Java 17, Spring Boot 3.5.14 |
+| Frontend | ✅ | React 19, Vite 8, proxy al backend |
+| Seguridad | ⚠️ | CSRF deshabilitado, endpoints abiertos |
+| Autenticación | ⚠️ | Login funcional, sin JWT/sesiones |
+| Base de Datos | ✅ | MySQL 8 con variables de entorno |
+| Pruebas | ⚠️ | Solo test de contexto |
+| Despliegue | ✅ | Docker Compose (db, backend, frontend) |
 
-* Expone los endpoints para la comunicación de datos.
+### Endpoints
 
-**Service Layer**
+| Método | Endpoint | Descripción |
+| ------ | -------- | ----------- |
+| POST | `/api/auth/register` | Registro de usuarios |
+| POST | `/api/auth/login` | Inicio de sesión |
+| GET | `/api/empleados` | Lista empleados |
+| POST | `/api/empleados` | Crea empleado y genera QR |
+| PUT | `/api/empleados/{id}` | Actualiza empleado |
+| DELETE | `/api/empleados/{id}` | Elimina empleado |
+| GET | `/api/empleados/count` | Total de empleados |
+| GET | `/api/empleados/count-stats` | Estadísticas por cargo |
 
-* Contiene la lógica de negocio.
+### Seguridad
 
-**Repository Layer**
+- **Configuración:** CSRF deshabilitado, `permitAll()` en todos los endpoints.
+- **Hallazgos:**
+  - 🔴 Endpoints abiertos sin autenticación.
+  - 🟡 Contraseña admin por defecto (`admin/admin`).
+  - 🟡 Sin JWT ni sesiones HTTP.
+  - 🟢 Contraseñas con BCrypt.
+  - 🟢 Credenciales DB por variables de entorno.
 
-* Gestiona la persistencia mediante JPA.
+### Modelo de Datos
 
-**Base de Datos (MySQL)**
+**Tabla `empleados`:** `id` (PK), `nombre`, `documento`, `cargo`.
 
-* Almacenamiento centralizado de la información.
+**Tabla `usuarios`:** `id` (PK), `username` (único), `password` (hash BCrypt).
 
----
+### Códigos QR
 
-## 🎓 Evidencia Académica
+- **Generación:** ZXing, 300x300 px, PNG.
+- **Contenido:** URL `{base-url}/empleado/{id}`.
+- **Almacenamiento:** `/static/qr/empleado_{id}.png`.
+- **Persistencia:** Volumen Docker `qr_data`.
 
-**Proyecto desarrollado como evidencia:**
+### Docker
 
-**GA7-220501096-AA2-EV01**
+| Servicio | Imagen | Puerto |
+| -------- | ------ | ------ |
+| `db` | `mysql:8.0` | 3306 |
+| `backend` | Dockerfile propio | 8080 |
+| `frontend` | Dockerfile propio | 80 |
 
-*Codificación de módulos del software según requerimientos del proyecto.*
+**Variables de entorno:** `MYSQL_DATABASE`, `MYSQL_ROOT_PASSWORD`, `SPRING_DATASOURCE_USERNAME`, `SPRING_DATASOURCE_PASSWORD`, `APP_QR_BASE_URL`.
 
-### Programa de Formación
+### Pruebas
 
-**Tecnólogo en Análisis y Desarrollo de Software**
+Solo existe un test de contexto. Faltan pruebas unitarias para servicios, controladores y repositorios.
 
-**Servicio Nacional de Aprendizaje (SENA)**
+### Deuda Técnica
 
----
+- `EmpleadoController` usa `@Autowired` en campos (preferir constructor).
+- `actualizar()` devuelve `null` en lugar de `404`.
+- Sin validación de datos (`@Valid`) ni manejo global de excepciones.
+- `qrgeneratorService` escribe en el sistema de archivos sin ruta inyectable.
+- `DataInitializer` crea admin con contraseña fija.
+- Sin perfiles Spring (dev/prod) ni logs SLF4J.
+- Archivos estáticos HTML antiguos duplican la SPA React.
+- Assets y CSS de plantilla Vite sin uso.
+
+### Resumen de Hallazgos
+
+**🔴 Críticos:**
+1. API abierta (`permitAll`).
+2. Sin JWT ni sesiones.
+
+**🟡 Importantes:**
+3. Credenciales por defecto.
+4. Cobertura de pruebas insuficiente.
+5. Doble frontend (HTML estático + React).
+6. `EmpleadoService` infrautilizado.
+
+**🟢 Correctos:**
+7. BCrypt en contraseñas.
+8. Configuración por variables de entorno.
+9. Docker multi-etapa eficiente.
+10. Persistencia en volúmenes.
+11. Proxy Nginx correcto.
+
+### Recomendaciones
+
+| Prioridad | Acción |
+| --------- | ------ |
+| 1 | Implementar JWT o sesiones para proteger endpoints |
+| 2 | Cambiar contraseñas por defecto a variables de entorno |
+| 3 | Añadir pruebas unitarias e integración |
+| 4 | Usar `EmpleadoService` en el controller |
+| 5 | Eliminar frontend HTML estático antiguo |
+| 6 | Validación de datos y manejo global de excepciones |
+| 7 | Reemplazar `System.out.println` por SLF4J |
+| 8 | Eliminar assets de plantilla Vite sin uso |
 
 ## 👨‍💻 Autor
 
-### Jackson Montoya Mercado
-
-**Tecnólogo en Análisis y Desarrollo de Software**
-
-Servicio Nacional de Aprendizaje – SENA
-
-📅 Año: 2026
+**Jackson Montoya Mercado** — 📅 2026
