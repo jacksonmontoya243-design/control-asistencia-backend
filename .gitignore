@@ -73,3 +73,14 @@ Thumbs.db
 ### Archivos de correo y enlaces ###
 *.eml
 enlace_repositorio.txt.txt
+
+### Archivos de configuración del IDE (Eclipse user libraries) ###
+*.userlibraries
+
+### Archivos de evidencia / ZIP ###
+*.zip
+GA5*/
+
+### Códigos QR generados dinámicamente ###
+static/qr/
+src/main/resources/static/qr/

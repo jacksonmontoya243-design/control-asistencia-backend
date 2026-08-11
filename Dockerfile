@@ -5,9 +5,10 @@ COPY pom.xml .
 COPY src ./src
 RUN mvn clean package -DskipTests
 
-# Stage 2: Run with JRE
-FROM openjdk:17-jdk-slim
+# Stage 2: Run with JRE (imagen más ligera)
+FROM eclipse-temurin:17-jre-alpine
 WORKDIR /app
 COPY --from=build /app/target/control-asistencia-backend-0.0.1-SNAPSHOT.jar app.jar
 EXPOSE 8080
-ENTRYPOINT ["java", "-jar", "app.jar"]
+# Se fuerza el perfil prod para no arrancar nunca con config de desarrollo
+ENTRYPOINT ["java", "-Dspring.profiles.active=prod", "-jar", "app.jar"]

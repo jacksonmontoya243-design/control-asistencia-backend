@@ -2,10 +2,15 @@ package com.example.controlasistenciabackend.service;
 
 import com.example.controlasistenciabackend.entity.Empleado;
 import com.example.controlasistenciabackend.repository.EmpleadoRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 
 /**
  * SERVICIO: EmpleadoService
@@ -18,12 +23,16 @@ import java.util.List;
 @Service
 public class EmpleadoService {
 
+    private static final Logger log = LoggerFactory.getLogger(EmpleadoService.class);
+
+    private final EmpleadoRepository empleadoRepository;
+
     /**
-     * Inyección de dependencias de la interfaz EmpleadoRepository.
-     * Permite acceder a los métodos CRUD preconfigurados por Spring Data JPA.
+     * Inyección de dependencias por constructor.
      */
-    @Autowired
-    private EmpleadoRepository empleadoRepository;
+    public EmpleadoService(EmpleadoRepository empleadoRepository) {
+        this.empleadoRepository = empleadoRepository;
+    }
 
     /**
      * Recupera la lista completa de empleados registrados en el sistema.
@@ -31,7 +40,30 @@ public class EmpleadoService {
      */
     public List<Empleado> obtenerTodos() {
         // Invoca el método findAll() de JPA para traer todos los registros
-        return empleadoRepository.findAll();
+        List<Empleado> empleados = empleadoRepository.findAll();
+        log.debug("Se recuperaron {} empleados", empleados.size());
+        return empleados;
+    }
+
+    /**
+     * Busca empleados paginados por nombre, documento o cargo.
+     * @param termino Texto a buscar (si es null o vacío se devuelve todo paginado).
+     * @param page Número de página (0-indexado).
+     * @param size Tamaño de página.
+     * @return Page<Empleado> Página de resultados con metadatos (total, páginas, etc.).
+     */
+    public Page<Empleado> buscarEmpleados(String termino, int page, int size) {
+        Pageable pageable = PageRequest.of(Math.max(page, 0), Math.max(size, 1));
+
+        if (termino == null || termino.isBlank()) {
+            return empleadoRepository.findAll(pageable);
+        }
+
+        String patron = termino.trim();
+        return empleadoRepository
+                .findByNombreContainingIgnoreCaseOrDocumentoContainingIgnoreCaseOrCargoContainingIgnoreCase(
+                        patron, patron, patron, pageable
+                );
     }
 
     /**
@@ -41,7 +73,9 @@ public class EmpleadoService {
      */
     public Empleado guardarEmpleado(Empleado empleado) {
         // Persiste los datos usando el método save() de JPA
-        return empleadoRepository.save(empleado);
+        Empleado guardado = empleadoRepository.save(empleado);
+        log.info("Empleado creado con ID {}", guardado.getId());
+        return guardado;
     }
 
     /**
@@ -63,9 +97,12 @@ public class EmpleadoService {
             empleado.setCargo(empleadoActualizado.getCargo());
 
             // 3. PERSISTENCIA: Se guardan los cambios aplicados sobre el mismo registro
-            return empleadoRepository.save(empleado);
+            Empleado actualizado = empleadoRepository.save(empleado);
+            log.info("Empleado con ID {} actualizado", id);
+            return actualizado;
         }
 
+        log.warn("Intento de actualizar un empleado inexistente con ID {}", id);
         // Retorna null en caso de que el ID proporcionado no coincida con ningún registro
         return null;
     }
@@ -73,9 +110,14 @@ public class EmpleadoService {
     /**
      * Elimina un empleado de la base de datos utilizando su identificador.
      * * @param id Identificador único del empleado que se desea remover.
+     * @throws NoSuchElementException si el empleado no existe.
      */
     public void eliminarEmpleado(Long id) {
-        // Ejecuta la eliminación física del registro en MySQL a través de JPA
+        if (!empleadoRepository.existsById(id)) {
+            throw new NoSuchElementException("Empleado no encontrado con ID: " + id);
+        }
+        // Ejecuta la eliminación física del registro en PostgreSQL a través de JPA
         empleadoRepository.deleteById(id);
+        log.info("Empleado con ID {} eliminado", id);
     }
 }

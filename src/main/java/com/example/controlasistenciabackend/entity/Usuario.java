@@ -1,15 +1,21 @@
 package com.example.controlasistenciabackend.entity;
 
 import jakarta.persistence.*;
-import lombok.Data; // Asegúrate de tener Lombok en tu proyecto
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  * Entidad Usuario: Representa la tabla de usuarios en la base de datos.
- * Esta clase almacena las credenciales para el proceso de autenticación.
+ * Almacena las credenciales y el rol para el proceso de autenticación y autorización.
  */
 @Entity
 @Table(name = "usuarios")
 @Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class Usuario {
 
     @Id
@@ -23,4 +29,9 @@ public class Usuario {
     // La contraseña debe ser obligatoria
     @Column(nullable = false)
     private String password;
+
+    // Rol del usuario para control de acceso (ADMIN, SUPERVISOR, EMPLEADO)
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private Role role;
 }

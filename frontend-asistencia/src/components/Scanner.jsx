@@ -1,10 +1,15 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { Html5QrcodeScanner } from 'html5-qrcode';
 import { useNavigate } from 'react-router-dom';
+import api from '../api/axiosConfig';
 import './Scanner.css';
 
 const Scanner = () => {
     const navigate = useNavigate();
+    const [mensaje, setMensaje] = useState('');
+    const [tipoMensaje, setTipoMensaje] = useState(''); // 'success' | 'error'
+    const [proximoTipo, setProximoTipo] = useState('ENTRADA'); // Solo para mostrar en UI
+    const ultimoTipoRef = useRef('ENTRADA'); // Alterna ENTRADA/SALIDA usando ref (sin reiniciar scanner)
 
     useEffect(() => {
         const scanner = new Html5QrcodeScanner("reader", {
@@ -12,16 +17,38 @@ const Scanner = () => {
             qrbox: { width: 250, height: 250 },
         });
 
-        const onScanSuccess = (decodedText) => {
+        const onScanSuccess = async (decodedText) => {
             scanner.clear();
-            // El formato esperado es http://.../empleado/{id}
-            // Pero para simplificar, si obtenemos una URL, intentamos navegar o procesar el ID
-            console.log("QR Scanned:", decodedText);
-            
-            // Si la URL contiene /empleado/, extraemos el ID para mostrar información si fuera necesario
-            // Por ahora, solo simulamos que el registro fue exitoso
-            alert("Asistencia registrada para: " + decodedText);
-            navigate('/dashboard');
+
+            // El QR contiene una URL tipo: http://.../empleado/{id}
+            // Extraemos el ID del empleado de la URL
+            const match = decodedText.match(/\/empleado\/(\d+)/);
+            if (!match) {
+                setMensaje('QR inválido: no contiene un ID de empleado válido');
+                setTipoMensaje('error');
+                return;
+            }
+
+            const empleadoId = parseInt(match[1], 10);
+
+            try {
+                // Alternar entre ENTRADA y SALIDA usando la ref (sin reiniciar el scanner)
+                const tipo = ultimoTipoRef.current;
+                ultimoTipoRef.current = tipo === 'ENTRADA' ? 'SALIDA' : 'ENTRADA';
+                setProximoTipo(ultimoTipoRef.current);
+
+                const response = await api.post('/api/asistencias', {
+                    empleadoId,
+                    tipo
+                });
+
+                const fecha = new Date(response.data.fechaHora).toLocaleString('es-CO');
+                setMensaje(`✅ Asistencia de ${tipo} registrada para empleado #${empleadoId} a las ${fecha}`);
+                setTipoMensaje('success');
+            } catch (error) {
+                setMensaje(`❌ Error: ${error.response?.data || 'No se pudo registrar la asistencia'}`);
+                setTipoMensaje('error');
+            }
         };
 
         const onScanFailure = (error) => {
@@ -33,7 +60,7 @@ const Scanner = () => {
         return () => {
             scanner.clear();
         };
-    }, [navigate]);
+    }, [navigate]); // Solo depende de navigate, no de ultimoTipo (evita reinicio del scanner)
 
     return (
         <div className="scanner-container">
@@ -47,9 +74,16 @@ const Scanner = () => {
                 </header>
                 
                 <div id="reader"></div>
+
+                {mensaje && (
+                    <div className={`scanner-message ${tipoMensaje}`}>
+                        {mensaje}
+                    </div>
+                )}
                 
                 <div className="scanner-footer">
                     <p>Asegúrese de tener buena iluminación</p>
+                    <p className="scanner-tipo">Próximo registro: <strong>{proximoTipo}</strong></p>
                 </div>
             </div>
         </div>

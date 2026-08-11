@@ -1,5 +1,6 @@
 package com.example.controlasistenciabackend.entity;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -8,7 +9,7 @@ import jakarta.persistence.Table;
 
 /**
  * ENTIDAD: Empleado
- * Mapea los datos de los colaboradores en la base de datos MySQL.
+ * Mapea los datos de los colaboradores en la base de datos PostgreSQL.
  * Esta clase representa la tabla de persistencia para la gestión del personal.
  * * Estándar aplicado: PascalCase para el nombre de la clase.
  * * @author Jackson Montoya
@@ -28,16 +29,19 @@ public class Empleado {
     /**
      * Nombre completo del empleado.
      */
+    @Column(nullable = false)
     private String nombre;
 
     /**
      * Documento de identidad (clave para la búsqueda y posterior generación del código QR).
      */
+    @Column(nullable = false, unique = true)
     private String documento;
 
     /**
      * Cargo o puesto que ocupa el trabajador dentro de la organización.
      */
+    @Column(nullable = false)
     private String cargo;
 
     /**

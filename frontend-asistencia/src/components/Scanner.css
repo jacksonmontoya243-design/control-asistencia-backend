@@ -54,8 +54,40 @@
     margin: 10px !important;
 }
 
+.scanner-message {
+    margin-top: 20px;
+    padding: 14px 18px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    text-align: center;
+}
+
+.scanner-message.success {
+    background: #e8f7ee;
+    color: #18794e;
+    border: 1px solid #b7e4c7;
+}
+
+.scanner-message.error {
+    background: #fff0ef;
+    color: #b42318;
+    border: 1px solid #f5c6c2;
+}
+
 .scanner-footer {
     margin-top: 24px;
     color: #738196;
     font-size: 14px;
+}
+
+.scanner-tipo {
+    margin-top: 8px;
+    font-size: 13px;
+    font-weight: 700;
+}
+
+.scanner-tipo strong {
+    color: #123c69;
+    text-transform: uppercase;
 }

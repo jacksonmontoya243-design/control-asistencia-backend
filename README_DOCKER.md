@@ -1,6 +1,6 @@
 # Guía de Despliegue con Docker - Control de Asistencia
 
-Este proyecto ha sido dockerizado para asegurar que sea **descargable, escalable y portable**. Esto significa que funcionará en cualquier ordenador que tenga Docker instalado, sin necesidad de configurar Java, Node.js o MySQL manualmente.
+Este proyecto ha sido dockerizado para asegurar que sea **descargable, escalable y portable**. Esto significa que funcionará en cualquier ordenador que tenga Docker instalado, sin necesidad de configurar Java, Node.js o PostgreSQL manualmente.
 
 ## Requisitos Previos
 
@@ -19,7 +19,7 @@ Este proyecto ha sido dockerizado para asegurar que sea **descargable, escalable
 4. **¡Listo!** El sistema estará disponible en las siguientes direcciones:
    - **Frontend (Interfaz de Usuario):** [http://localhost](http://localhost)
    - **Backend (API):** [http://localhost:8080](http://localhost:8080)
-   - **Base de Datos (MySQL):** Puerto 3306
+   - **Base de Datos (PostgreSQL):** Puerto 5432
 
 ## Credenciales por Defecto
 
@@ -30,7 +30,7 @@ Este proyecto ha sido dockerizado para asegurar que sea **descargable, escalable
 
 - **Escalabilidad:** Puedes levantar múltiples instancias del backend si el tráfico aumenta (usando un balanceador de carga).
 - **Persistencia:** Los datos de la base de datos y los códigos QR generados se guardan en **volúmenes de Docker**, por lo que no se pierden al apagar los contenedores.
-- **Aislamiento:** No hay conflictos con otras versiones de Java o MySQL que tengas instaladas en tu equipo.
+- **Aislamiento:** No hay conflictos con otras versiones de Java o PostgreSQL que tengas instaladas en tu equipo.
 
 ## Notas para Producción
 

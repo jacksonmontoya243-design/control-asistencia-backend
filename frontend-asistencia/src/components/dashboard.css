@@ -85,6 +85,30 @@
     color: #b42318;
 }
 
+.user-info {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    margin-bottom: 12px;
+    padding: 12px 14px;
+    border-radius: 8px;
+    background: #f4f7fb;
+}
+
+.user-role {
+    color: #123c69;
+    font-size: 11px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+}
+
+.user-name {
+    color: #172033;
+    font-size: 14px;
+    font-weight: 700;
+}
+
 .main-content {
     padding: 36px;
 }
@@ -157,6 +181,89 @@
     margin: 0;
 }
 
+.recent-assists {
+    margin-top: 22px;
+    padding: 28px;
+    border: 1px solid #e4e8ef;
+    border-radius: 8px;
+    background: #ffffff;
+    box-shadow: 0 12px 28px rgba(32, 49, 74, 0.05);
+}
+
+.assists-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 18px;
+}
+
+.assists-header h2 {
+    color: #172033;
+    font-size: 20px;
+    margin: 0;
+}
+
+.assists-header span {
+    color: #738196;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.assists-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.assists-table th {
+    text-align: left;
+    padding: 10px 14px;
+    border-bottom: 2px solid #e4e8ef;
+    color: #738196;
+    font-size: 12px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+}
+
+.assists-table td {
+    padding: 12px 14px;
+    border-bottom: 1px solid #edf1f6;
+    color: #172033;
+    font-size: 14px;
+}
+
+.assists-table tr:last-child td {
+    border-bottom: 0;
+}
+
+.tipo-badge {
+    display: inline-block;
+    padding: 4px 12px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 800;
+    text-transform: uppercase;
+}
+
+.tipo-badge.entrada {
+    background: #e8f7ee;
+    color: #18794e;
+}
+
+.tipo-badge.salida {
+    background: #fff4e5;
+    color: #b76e00;
+}
+
+.empty-state {
+    padding: 20px;
+    text-align: center;
+    color: #738196;
+    background: #f8fafc;
+    border-radius: 8px;
+    margin: 0;
+}
+
 .work-panel {
     display: flex;
     justify-content: space-between;
@@ -206,5 +313,22 @@
 
     .stats-grid {
         grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 600px) {
+    .assists-table {
+        font-size: 13px;
+    }
+
+    .assists-table th,
+    .assists-table td {
+        padding: 8px 10px;
+    }
+
+    .assists-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 6px;
     }
 }

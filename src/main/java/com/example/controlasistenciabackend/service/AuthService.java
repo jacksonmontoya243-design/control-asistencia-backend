@@ -1,36 +1,83 @@
 package com.example.controlasistenciabackend.service;
 
+import com.example.controlasistenciabackend.dto.AuthResponse;
+import com.example.controlasistenciabackend.dto.LoginRequest;
+import com.example.controlasistenciabackend.dto.RegisterRequest;
+import com.example.controlasistenciabackend.entity.Role;
 import com.example.controlasistenciabackend.entity.Usuario;
 import com.example.controlasistenciabackend.repository.UsuarioRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import com.example.controlasistenciabackend.security.JwtService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
-
+/**
+ * Servicio de autenticación: registro de usuarios y login con emisión de JWT.
+ */
 @Service
 public class AuthService {
 
-    @Autowired
-    private UsuarioRepository usuarioRepository;
+    private static final Logger log = LoggerFactory.getLogger(AuthService.class);
 
-    private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+    private final UsuarioRepository usuarioRepository;
+    private final PasswordEncoder passwordEncoder;
+    private final JwtService jwtService;
 
-    public Usuario registrarUsuario(Usuario usuario) {
-        // Encriptar la contraseña antes de guardar
-        usuario.setPassword(passwordEncoder.encode(usuario.getPassword()));
-        return usuarioRepository.save(usuario);
+    @Value("${app.jwt.expiration}")
+    private long jwtExpiration;
+
+    public AuthService(UsuarioRepository usuarioRepository,
+                       PasswordEncoder passwordEncoder,
+                       JwtService jwtService) {
+        this.usuarioRepository = usuarioRepository;
+        this.passwordEncoder = passwordEncoder;
+        this.jwtService = jwtService;
     }
 
-    public Usuario validarLogin(String username, String password) {
-        Optional<Usuario> usuarioOpt = usuarioRepository.findByUsername(username);
-        if (usuarioOpt.isPresent()) {
-            Usuario usuario = usuarioOpt.get();
-            // Validar la contraseña encriptada
-            if (passwordEncoder.matches(password, usuario.getPassword())) {
-                return usuario;
-            }
+    /**
+     * Registra un nuevo usuario con contraseña encriptada.
+     * El rol SIEMPRE se asigna como EMPLEADO para evitar escalada de privilegios.
+     * Los roles superiores solo pueden asignarse mediante el endpoint de administración.
+     */
+    public Usuario registrarUsuario(RegisterRequest request) {
+        if (usuarioRepository.findByUsername(request.username()).isPresent()) {
+            throw new IllegalArgumentException("El usuario ya existe");
         }
-        return null;
+
+        Usuario usuario = Usuario.builder()
+                .username(request.username())
+                .password(passwordEncoder.encode(request.password()))
+                .role(Role.EMPLEADO) // Siempre EMPLEADO, nunca aceptar rol del cliente
+                .build();
+
+        Usuario guardado = usuarioRepository.save(usuario);
+        log.info("Usuario registrado: {} (rol: {})", guardado.getUsername(), guardado.getRole());
+        return guardado;
+    }
+
+    /**
+     * Valida credenciales y devuelve un AuthResponse con el token JWT.
+     */
+    public AuthResponse login(LoginRequest request) {
+        Usuario usuario = usuarioRepository.findByUsername(request.username())
+                .orElseThrow(() -> new BadCredentialsException("Credenciales incorrectas"));
+
+        if (!passwordEncoder.matches(request.password(), usuario.getPassword())) {
+            throw new BadCredentialsException("Credenciales incorrectas");
+        }
+
+        String token = jwtService.generarToken(usuario);
+        log.info("Login exitoso para el usuario: {}", usuario.getUsername());
+
+        return new AuthResponse(
+                token,
+                "Bearer",
+                jwtExpiration,
+                usuario.getUsername(),
+                usuario.getRole()
+        );
     }
 }
