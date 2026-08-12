@@ -32,6 +32,9 @@ services:
       - APP_QR_BASE_URL=${APP_QR_BASE_URL:-http://localhost:8080}
       - JWT_SECRET=${JWT_SECRET:-clave-secreta-super-segura-para-desarrollo-cambiar-en-produccion-1234567890}
       - JWT_EXPIRATION=${JWT_EXPIRATION:-86400000}
+      # FIX DE EMERGENCIA: la imagen antigua trae app.security.requires-secure=true,
+      # que redirige HTTP->HTTPS y rompe el login (nginx solo escucha en puerto 80).
+      - APP_SECURITY_REQUIRES_SECURE=false
       - ADMIN_USERNAME=${ADMIN_USERNAME:-admin}
       - ADMIN_PASSWORD=${ADMIN_PASSWORD:-admin}
     ports:
