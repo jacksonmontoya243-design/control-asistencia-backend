@@ -1,5 +1,5 @@
 ﻿import React, { useState, useEffect } from 'react';
-import api from '../api/axiosConfig';
+import api, { API_URL } from '../api/axiosConfig';
 import { Link } from 'react-router-dom';
 import './empleados.css';
 
@@ -179,7 +179,7 @@ const Empleados = () => {
                                     <td>
                                         <button 
                                             className="qr-view-btn"
-                                            onClick={() => window.open(`/qr/empleado_${emp.id}.png`, '_blank')}
+                                            onClick={() => window.open(`${API_URL}/qr/empleado_${emp.id}.png`, '_blank')}
                                         >
                                             Ver QR
                                         </button>

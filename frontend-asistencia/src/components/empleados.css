@@ -11,17 +11,20 @@
     align-items: flex-start;
     gap: 24px;
     margin-bottom: 24px;
+    animation: fadeUp 480ms var(--ease) both;
 }
 
 .employees-header h1 {
     font-size: 36px;
     line-height: 1.08;
     margin: 0 0 10px;
+    letter-spacing: -0.02em;
 }
 
 .employees-header p {
     color: #5f6d7e;
     margin: 0;
+    line-height: 1.6;
 }
 
 .header-actions {
@@ -39,11 +42,13 @@
     color: #ffffff;
     font-weight: 800;
     cursor: pointer;
-    transition: background 160ms ease;
+    transition: background 200ms var(--ease-soft), transform 200ms var(--ease-soft), box-shadow 200ms var(--ease-soft);
 }
 
 .new-employee-btn:hover {
     background: #0d2f52;
+    transform: translateY(-2px);
+    box-shadow: 0 10px 22px rgba(18, 60, 105, 0.22);
 }
 
 .back-link {
@@ -56,6 +61,12 @@
     color: #ffffff;
     font-weight: 800;
     text-decoration: none;
+    transition: background 200ms var(--ease-soft), transform 200ms var(--ease-soft);
+}
+
+.back-link:hover {
+    background: #0d2f52;
+    transform: translateY(-1px);
 }
 
 .crud-message {
@@ -64,6 +75,7 @@
     border-radius: 8px;
     font-size: 14px;
     font-weight: 600;
+    animation: fadeUp 320ms var(--ease-soft) both;
 }
 
 .crud-message.success {
@@ -84,6 +96,7 @@
     background: #ffffff;
     box-shadow: 0 16px 40px rgba(32, 49, 74, 0.06);
     overflow: hidden;
+    animation: fadeUp 520ms 80ms var(--ease) both;
 }
 
 .table-toolbar {
@@ -98,6 +111,7 @@
 .table-toolbar h2 {
     font-size: 20px;
     margin: 0;
+    letter-spacing: -0.01em;
 }
 
 .table-toolbar span {
@@ -136,8 +150,12 @@
     color: #26364b;
 }
 
+.employees-table tbody tr {
+    transition: background 180ms var(--ease-soft);
+}
+
 .employees-table tbody tr:hover {
-    background: #f8fbfd;
+    background: #f2f8fc;
 }
 
 .empty-state {
@@ -153,13 +171,14 @@
     border-radius: 6px;
     font-weight: 700;
     cursor: pointer;
-    transition: all 160ms ease;
+    transition: background 180ms var(--ease-soft), color 180ms var(--ease-soft), border-color 180ms var(--ease-soft), transform 180ms var(--ease-soft);
 }
 
 .qr-view-btn:hover {
     background: #123c69;
     color: #ffffff;
     border-color: #123c69;
+    transform: translateY(-1px);
 }
 
 .action-buttons {
@@ -175,7 +194,7 @@
     font-weight: 700;
     cursor: pointer;
     border: 1px solid transparent;
-    transition: all 160ms ease;
+    transition: background 180ms var(--ease-soft), color 180ms var(--ease-soft), border-color 180ms var(--ease-soft), transform 180ms var(--ease-soft);
 }
 
 .edit-btn {
@@ -188,6 +207,7 @@
     background: #123c69;
     color: #ffffff;
     border-color: #123c69;
+    transform: translateY(-1px);
 }
 
 .delete-btn {
@@ -200,6 +220,7 @@
     background: #b42318;
     color: #ffffff;
     border-color: #b42318;
+    transform: translateY(-1px);
 }
 
 /* Modal */
@@ -211,6 +232,7 @@
     background: rgba(23, 32, 51, 0.5);
     z-index: 1000;
     padding: 20px;
+    animation: fadeIn 200ms var(--ease-soft) both;
 }
 
 .modal-content {
@@ -220,6 +242,18 @@
     border-radius: 12px;
     padding: 28px;
     box-shadow: 0 24px 60px rgba(23, 32, 51, 0.2);
+    animation: modalIn 320ms var(--ease) both;
+}
+
+@keyframes modalIn {
+    from {
+        opacity: 0;
+        transform: translateY(12px) scale(0.98);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
 }
 
 .modal-header {
@@ -233,6 +267,7 @@
     font-size: 22px;
     margin: 0;
     color: #172033;
+    letter-spacing: -0.01em;
 }
 
 .modal-close {
@@ -246,12 +281,13 @@
     color: #546277;
     font-size: 20px;
     cursor: pointer;
-    transition: all 160ms ease;
+    transition: background 180ms var(--ease-soft), color 180ms var(--ease-soft), transform 180ms var(--ease-soft);
 }
 
 .modal-close:hover {
     background: #e4e8ef;
     color: #172033;
+    transform: rotate(90deg);
 }
 
 .employee-form {
@@ -275,13 +311,19 @@
     font-size: 15px;
     color: #172033;
     background: #f8fafc;
-    transition: border-color 160ms ease, background 160ms ease;
+    transition: border-color 180ms var(--ease-soft), background 180ms var(--ease-soft), box-shadow 180ms var(--ease-soft);
+}
+
+.employee-form input:hover:not(:focus) {
+    border-color: #c3cdda;
+    background: #ffffff;
 }
 
 .employee-form input:focus {
     outline: none;
     border-color: #123c69;
     background: #ffffff;
+    box-shadow: 0 0 0 4px rgba(18, 60, 105, 0.12);
 }
 
 .modal-actions {
@@ -300,7 +342,7 @@
     font-weight: 800;
     cursor: pointer;
     border: 1px solid transparent;
-    transition: all 160ms ease;
+    transition: background 180ms var(--ease-soft), transform 180ms var(--ease-soft), box-shadow 180ms var(--ease-soft);
 }
 
 .cancel-btn {
@@ -311,6 +353,7 @@
 
 .cancel-btn:hover {
     background: #e4e8ef;
+    transform: translateY(-1px);
 }
 
 .save-btn {
@@ -320,6 +363,8 @@
 
 .save-btn:hover {
     background: #0d2f52;
+    transform: translateY(-1px);
+    box-shadow: 0 8px 18px rgba(18, 60, 105, 0.2);
 }
 
 .save-btn:disabled {
@@ -349,6 +394,8 @@
 
 .confirm-delete-btn:hover {
     background: #8f1c13;
+    transform: translateY(-1px);
+    box-shadow: 0 8px 18px rgba(180, 35, 24, 0.24);
 }
 
 @media (max-width: 720px) {
@@ -393,13 +440,19 @@
     color: #172033;
     font-weight: 700;
     cursor: pointer;
-    transition: border-color 160ms ease, background 160ms ease;
+    transition: border-color 180ms var(--ease-soft), background 180ms var(--ease-soft), box-shadow 180ms var(--ease-soft);
+}
+
+.role-select:hover:not(:disabled) {
+    border-color: #c3cdda;
+    background: #ffffff;
 }
 
 .role-select:focus {
     outline: none;
     border-color: #123c69;
     background: #ffffff;
+    box-shadow: 0 0 0 4px rgba(18, 60, 105, 0.12);
 }
 
 .role-select:disabled {
@@ -423,13 +476,19 @@
     background: #f8fafc;
     color: #172033;
     font-size: 14px;
-    transition: border-color 160ms ease, background 160ms ease;
+    transition: border-color 180ms var(--ease-soft), background 180ms var(--ease-soft), box-shadow 180ms var(--ease-soft);
+}
+
+.search-bar input:hover:not(:focus) {
+    border-color: #c3cdda;
+    background: #ffffff;
 }
 
 .search-bar input:focus {
     outline: none;
     border-color: #123c69;
     background: #ffffff;
+    box-shadow: 0 0 0 4px rgba(18, 60, 105, 0.12);
 }
 
 .search-btn {
@@ -441,11 +500,12 @@
     color: #ffffff;
     font-weight: 800;
     cursor: pointer;
-    transition: background 160ms ease;
+    transition: background 180ms var(--ease-soft), transform 180ms var(--ease-soft);
 }
 
 .search-btn:hover {
     background: #0d2f52;
+    transform: translateY(-1px);
 }
 
 .pagination {
@@ -466,13 +526,14 @@
     color: #123c69;
     font-weight: 800;
     cursor: pointer;
-    transition: all 160ms ease;
+    transition: background 180ms var(--ease-soft), color 180ms var(--ease-soft), border-color 180ms var(--ease-soft), transform 180ms var(--ease-soft);
 }
 
 .page-btn:hover:not(:disabled) {
     background: #123c69;
     color: #ffffff;
     border-color: #123c69;
+    transform: translateY(-1px);
 }
 
 .page-btn:disabled {

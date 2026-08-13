@@ -1,4 +1,4 @@
-﻿import React, { useState, useEffect } from 'react';
+﻿import React, { useState, useEffect, useRef } from 'react';
 import api from '../api/axiosConfig';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
@@ -15,6 +15,7 @@ const Dashboard = () => {
         supervisores: 0
     });
     const [asistencias, setAsistencias] = useState([]);
+    const statRefs = useRef({});
 
     useEffect(() => {
         const fetchDashboardData = async () => {
@@ -39,6 +40,40 @@ const Dashboard = () => {
 
         fetchDashboardData();
     }, []);
+
+    // Contadores animados con GSAP cuando los datos llegan
+    useEffect(() => {
+        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+            return undefined;
+        }
+
+        let tweens = [];
+
+        import('gsap').then(({ gsap }) => {
+            const targets = [
+                { el: statRefs.current.empleados, value: stats.empleados },
+                { el: statRefs.current.admins, value: stats.admins },
+                { el: statRefs.current.supervisores, value: stats.supervisores },
+            ];
+
+            targets.forEach((t) => {
+                if (!t.el) return;
+                const obj = { val: 0 };
+                tweens.push(gsap.to(obj, {
+                    val: t.value,
+                    duration: 1.2,
+                    ease: 'power2.out',
+                    onUpdate: () => {
+                        t.el.textContent = Math.round(obj.val);
+                    },
+                }));
+            });
+        });
+
+        return () => {
+            tweens.forEach((tween) => tween && tween.kill());
+        };
+    }, [stats]);
 
     const formatFecha = (fechaHora) => {
         if (!fechaHora) return '';
@@ -111,17 +146,17 @@ const Dashboard = () => {
                 <section className="stats-grid" aria-label="Indicadores principales">
                     <article className="stat-card">
                         <span className="stat-label">Total empleados</span>
-                        <strong>{stats.empleados}</strong>
+                        <strong ref={(el) => (statRefs.current.empleados = el)}>{stats.empleados}</strong>
                         <p>Personas registradas en el sistema.</p>
                     </article>
                     <article className="stat-card">
                         <span className="stat-label">Administradores</span>
-                        <strong>{stats.admins}</strong>
+                        <strong ref={(el) => (statRefs.current.admins = el)}>{stats.admins}</strong>
                         <p>Usuarios con permisos de gestion.</p>
                     </article>
                     <article className="stat-card">
                         <span className="stat-label">Supervisores</span>
-                        <strong>{stats.supervisores}</strong>
+                        <strong ref={(el) => (statRefs.current.supervisores = el)}>{stats.supervisores}</strong>
                         <p>Responsables de seguimiento operativo.</p>
                     </article>
                 </section>
@@ -132,28 +167,30 @@ const Dashboard = () => {
                         <span>{asistencias.length} registros recientes</span>
                     </div>
                     {asistencias.length > 0 ? (
-                        <table className="assists-table">
-                            <thead>
-                                <tr>
-                                    <th>Empleado ID</th>
-                                    <th>Fecha y hora</th>
-                                    <th>Tipo</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {asistencias.map((a) => (
-                                    <tr key={a.id}>
-                                        <td>#{a.empleadoId}</td>
-                                        <td>{formatFecha(a.fechaHora)}</td>
-                                        <td>
-                                            <span className={`tipo-badge ${a.tipo.toLowerCase()}`}>
-                                                {a.tipo}
-                                            </span>
-                                        </td>
+                        <div className="assists-table-wrap">
+                            <table className="assists-table">
+                                <thead>
+                                    <tr>
+                                        <th>Empleado ID</th>
+                                        <th>Fecha y hora</th>
+                                        <th>Tipo</th>
                                     </tr>
-                                ))}
-                            </tbody>
-                        </table>
+                                </thead>
+                                <tbody>
+                                    {asistencias.map((a) => (
+                                        <tr key={a.id}>
+                                            <td>#{a.empleadoId}</td>
+                                            <td>{formatFecha(a.fechaHora)}</td>
+                                            <td>
+                                                <span className={`tipo-badge ${a.tipo.toLowerCase()}`}>
+                                                    {a.tipo}
+                                                </span>
+                                            </td>
+                                        </tr>
+                                    ))}
+                                </tbody>
+                            </table>
+                        </div>
                     ) : (
                         <p className="empty-state">No hay asistencias registradas aún.</p>
                     )}

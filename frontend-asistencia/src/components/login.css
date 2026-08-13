@@ -12,6 +12,7 @@
     padding: 56px;
     background: #ffffff;
     border-right: 1px solid #e4e8ef;
+    animation: fadeUp 600ms var(--ease) both;
 }
 
 .login-brand {
@@ -19,6 +20,7 @@
     align-items: center;
     gap: 16px;
     margin-bottom: 32px;
+    animation: fadeUp 500ms 80ms var(--ease) both;
 }
 
 .brand-mark {
@@ -31,6 +33,7 @@
     color: #ffffff;
     font-weight: 800;
     letter-spacing: 0;
+    box-shadow: 0 10px 24px rgba(18, 60, 105, 0.28);
 }
 
 .login-panel h1,
@@ -42,17 +45,21 @@
 
 .login-panel h1 {
     font-size: 34px;
+    letter-spacing: -0.02em;
 }
 
 .login-copy {
     max-width: 380px;
     color: #5f6d7e;
     margin: 0 0 32px;
+    line-height: 1.6;
+    animation: fadeUp 500ms 140ms var(--ease) both;
 }
 
 .login-form {
     display: grid;
     gap: 18px;
+    animation: fadeUp 500ms 200ms var(--ease) both;
 }
 
 .login-form label {
@@ -74,13 +81,18 @@
     color: #172033;
     font-size: 15px;
     outline: none;
-    transition: border-color 160ms ease, box-shadow 160ms ease, background 160ms ease;
+    transition: border-color 160ms var(--ease-soft), box-shadow 160ms var(--ease-soft), background 160ms var(--ease-soft), transform 160ms var(--ease-soft);
+}
+
+.login-form input:hover:not(:focus) {
+    border-color: #c3cdda;
+    background: #ffffff;
 }
 
 .login-form input:focus {
     border-color: #1f6f9f;
     background: #ffffff;
-    box-shadow: 0 0 0 4px rgba(31, 111, 159, 0.12);
+    box-shadow: 0 0 0 4px rgba(31, 111, 159, 0.14);
 }
 
 .primary-button {
@@ -92,13 +104,19 @@
     font-size: 15px;
     font-weight: 800;
     cursor: pointer;
-    transition: background 160ms ease, transform 160ms ease, box-shadow 160ms ease;
+    position: relative;
+    overflow: hidden;
+    transition: background 160ms var(--ease-soft), transform 160ms var(--ease-soft), box-shadow 160ms var(--ease-soft);
 }
 
 .primary-button:hover:not(:disabled) {
     background: #0f3156;
-    transform: translateY(-1px);
-    box-shadow: 0 10px 22px rgba(18, 60, 105, 0.18);
+    transform: translateY(-2px);
+    box-shadow: 0 12px 24px rgba(18, 60, 105, 0.24);
+}
+
+.primary-button:active:not(:disabled) {
+    transform: translateY(0);
 }
 
 .primary-button:disabled {
@@ -113,6 +131,8 @@
     color: #b42318;
     font-size: 14px;
     margin: 0;
+    border: 1px solid #f5c6c2;
+    animation: fadeUp 320ms var(--ease-soft) both;
 }
 
 .login-summary {
@@ -120,15 +140,41 @@
     flex-direction: column;
     justify-content: center;
     padding: 64px;
+    position: relative;
+    overflow: hidden;
     background:
-        linear-gradient(rgba(244, 247, 251, 0.9), rgba(244, 247, 251, 0.9)),
+        linear-gradient(rgba(244, 247, 251, 0.92), rgba(244, 247, 251, 0.92)),
         url('../assets/hero.png') center right / min(560px, 70%) no-repeat;
+}
+
+/* capa decorativa con leve parallax (movimiento suave solo en escritorio) */
+.login-summary::before {
+    content: '';
+    position: absolute;
+    top: -120px;
+    right: -120px;
+    width: 380px;
+    height: 380px;
+    border-radius: 50%;
+    background: radial-gradient(circle at 30% 30%, rgba(31, 111, 159, 0.16), transparent 68%);
+    pointer-events: none;
+}
+
+.login-summary > * {
+    position: relative;
+    z-index: 1;
+}
+
+.login-summary .eyebrow {
+    animation: fadeUp 500ms 120ms var(--ease) both;
 }
 
 .login-summary h2 {
     max-width: 620px;
     font-size: 48px;
     margin-bottom: 40px;
+    letter-spacing: -0.02em;
+    animation: fadeUp 600ms 180ms var(--ease) both;
 }
 
 .summary-list {
@@ -147,11 +193,30 @@
     background: rgba(255, 255, 255, 0.82);
     color: #405066;
     box-shadow: 0 12px 32px rgba(32, 49, 74, 0.08);
+    transition: transform 200ms var(--ease-soft), box-shadow 200ms var(--ease-soft), border-color 200ms var(--ease-soft);
+    animation: fadeUp 500ms var(--ease) both;
+}
+
+.summary-list div:nth-child(1) { animation-delay: 240ms; }
+.summary-list div:nth-child(2) { animation-delay: 300ms; }
+.summary-list div:nth-child(3) { animation-delay: 360ms; }
+
+.summary-list div:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 16px 40px rgba(32, 49, 74, 0.14);
+    border-color: rgba(31, 111, 159, 0.28);
 }
 
 .summary-list span {
     color: #1f6f9f;
     font-weight: 800;
+}
+
+/* parallax sutil: la imagen se desplaza ligeramente con el scroll */
+@media (min-width: 861px) and (prefers-reduced-motion: no-preference) {
+    .login-summary[data-parallax] {
+        background-attachment: scroll;
+    }
 }
 
 @media (max-width: 860px) {

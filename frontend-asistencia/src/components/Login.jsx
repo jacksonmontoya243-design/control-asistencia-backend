@@ -1,4 +1,4 @@
-﻿import React, { useState } from 'react';
+﻿import React, { useState, useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import './login.css';
@@ -11,6 +11,51 @@ const Login = () => {
 
     const { login } = useAuth();
     const navigate = useNavigate();
+    const summaryRef = useRef(null);
+    const parallaxTl = useRef(null);
+
+    useEffect(() => {
+        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+            return undefined;
+        }
+
+        const el = summaryRef.current;
+        if (!el) return undefined;
+
+        let gsapMod;
+        let isDesktop = false;
+        const onMove = (e) => {
+            if (!gsapMod || !parallaxTl.current) return;
+            const x = (e.clientX / window.innerWidth - 0.5) * 2;
+            parallaxTl.current.progress((x + 1) / 2);
+        };
+
+        import('gsap').then(({ gsap }) => {
+            gsapMod = gsap;
+            isDesktop = window.matchMedia('(min-width: 861px)').matches;
+            if (!isDesktop) return;
+
+            const layer = el.querySelector('[data-parallax-layer]');
+            if (!layer) return;
+
+            parallaxTl.current = gsap.timeline({ paused: true });
+            parallaxTl.current.to(layer, {
+                xPercent: 2.5,
+                duration: 1.4,
+                ease: 'none',
+            }, 0);
+
+            window.addEventListener('mousemove', onMove);
+        });
+
+        return () => {
+            window.removeEventListener('mousemove', onMove);
+            if (parallaxTl.current) {
+                parallaxTl.current.kill();
+                parallaxTl.current = null;
+            }
+        };
+    }, []);
 
     const handleLogin = async (e) => {
         e.preventDefault();
@@ -114,18 +159,20 @@ const Login = () => {
             </section>
 
             <aside
+                ref={summaryRef}
                 className="login-summary"
+                data-parallax
                 aria-label="Resumen del sistema"
             >
-                <p className="eyebrow">
+                <p className="eyebrow" data-parallax-layer>
                     Panel empresarial
                 </p>
 
-                <h2>
+                <h2 data-parallax-layer>
                     Gestion centralizada para equipos operativos.
                 </h2>
 
-                <div className="summary-list">
+                <div className="summary-list" data-parallax-layer>
                     <div>
                         <span>01</span>
                         Consulta rapida de empleados activos.

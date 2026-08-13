@@ -8,6 +8,7 @@ import Dashboard from './components/Dashboard';
 import Empleados from './components/Empleados';
 import Usuarios from './components/Usuarios';
 import Scanner from './components/Scanner';
+import PageTransition from './components/PageTransition';
 
 function App() {
     return (
@@ -17,22 +18,22 @@ function App() {
                     <Route path="/" element={<Login />} />
                     <Route path="/dashboard" element={
                         <ProtectedRoute>
-                            <Dashboard />
+                            <PageTransition><Dashboard /></PageTransition>
                         </ProtectedRoute>
                     } />
                     <Route path="/empleados" element={
                         <ProtectedRoute>
-                            <Empleados />
+                            <PageTransition><Empleados /></PageTransition>
                         </ProtectedRoute>
                     } />
                     <Route path="/usuarios" element={
                         <AdminRoute>
-                            <Usuarios />
+                            <PageTransition><Usuarios /></PageTransition>
                         </AdminRoute>
                     } />
                     <Route path="/scanner" element={
                         <ProtectedRoute>
-                            <Scanner />
+                            <PageTransition><Scanner /></PageTransition>
                         </ProtectedRoute>
                     } />
                 </Routes>
