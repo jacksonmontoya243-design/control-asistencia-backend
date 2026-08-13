@@ -14,12 +14,20 @@ public class CorsConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration config = new CorsConfiguration();
-        config.setAllowedOrigins(List.of(
+        // Orígenes permitidos:
+        // - Cualquier subdominio de Netlify (donde se desplegará el frontend)
+        // - localhost en cualquier puerto (desarrollo local con Vite)
+        // - El backend desplegado en Render (por compatibilidad)
+        config.setAllowedOriginPatterns(List.of(
+                "https://*.netlify.app",
+                "http://localhost:*",
                 "https://control-asistencia-backend-1.onrender.com"
         ));
-        config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
+        config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"));
         config.setAllowedHeaders(List.of("*"));
-        config.setAllowCredentials(true);
+        // La aplicación usa JWT en el header Authorization (no cookies),
+        // por lo que no se requieren credenciales.
+        config.setAllowCredentials(false);
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", config);
