@@ -51,6 +51,7 @@ public class AuthService {
                 .username(request.username())
                 .password(passwordEncoder.encode(request.password()))
                 .role(Role.EMPLEADO) // Siempre EMPLEADO, nunca aceptar rol del cliente
+                .activo(true)
                 .build();
 
         Usuario guardado = usuarioRepository.save(usuario);
@@ -60,6 +61,7 @@ public class AuthService {
 
     /**
      * Valida credenciales y devuelve un AuthResponse con el token JWT.
+     * Verifica que el usuario esté activo antes de permitir el acceso.
      */
     public AuthResponse login(LoginRequest request) {
         Usuario usuario = usuarioRepository.findByUsername(request.username())
@@ -67,6 +69,10 @@ public class AuthService {
 
         if (!passwordEncoder.matches(request.password(), usuario.getPassword())) {
             throw new BadCredentialsException("Credenciales incorrectas");
+        }
+
+        if (!usuario.isActivo()) {
+            throw new BadCredentialsException("El usuario está desactivado. Contacta al administrador.");
         }
 
         String token = jwtService.generarToken(usuario);

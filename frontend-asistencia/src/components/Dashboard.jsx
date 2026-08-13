@@ -88,44 +88,62 @@ const Dashboard = () => {
     return (
         <div className="dashboard-shell">
             <aside className="sidebar">
-                <div className="brand">
-                    <div className="brand-icon">CA</div>
-                    <div>
-                        <h2>AsistenciaPro</h2>
-                        <span>Panel administrativo</span>
+                <div className="sidebar-top">
+                    <div className="brand">
+                        <div className="brand-icon">CA</div>
+                        <div>
+                            <h2>AsistenciaPro</h2>
+                            <span>Panel administrativo</span>
+                        </div>
                     </div>
-                </div>
 
-                <nav className="side-nav" aria-label="Navegacion principal">
-                    <li>
-                        <Link to="/dashboard" className="active">
-                            <span>Inicio</span>
-                        </Link>
-                    </li>
-                    {gestionaEmpleados && (
+                    <nav className="side-nav" aria-label="Navegacion principal">
                         <li>
-                            <Link to="/empleados">
-                                <span>Empleados</span>
+                            <Link to="/dashboard" className="active">
+                                <span className="nav-ico" aria-hidden="true">
+                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="3" width="7" height="9" rx="1"/><rect x="14" y="3" width="7" height="5" rx="1"/><rect x="14" y="12" width="7" height="9" rx="1"/><rect x="3" y="16" width="7" height="5" rx="1"/></svg>
+                                </span>
+                                <span>Inicio</span>
                             </Link>
                         </li>
-                    )}
-                    {esAdmin && (
-                        <li>
-                            <Link to="/usuarios">
-                                <span>Usuarios</span>
-                            </Link>
-                        </li>
-                    )}
-                </nav>
-
-                <div className="user-info">
-                    <span className="user-role">{user.role}</span>
-                    <span className="user-name">{user.username}</span>
+                        {gestionaEmpleados && (
+                            <li>
+                                <Link to="/empleados">
+                                    <span className="nav-ico" aria-hidden="true">
+                                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                                    </span>
+                                    <span>Empleados</span>
+                                </Link>
+                            </li>
+                        )}
+                        {esAdmin && (
+                            <li>
+                                <Link to="/usuarios">
+                                    <span className="nav-ico" aria-hidden="true">
+                                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                                    </span>
+                                    <span>Usuarios</span>
+                                </Link>
+                            </li>
+                        )}
+                    </nav>
                 </div>
 
-                <button className="logout-btn" onClick={handleLogout}>
-                    Cerrar sesion
-                </button>
+                <div className="sidebar-bottom">
+                    <div className="user-info">
+                        <span className="user-avatar" aria-hidden="true">
+                            {(user.username || 'U').charAt(0).toUpperCase()}
+                        </span>
+                        <div className="user-meta">
+                            <span className="user-role">{user.role}</span>
+                            <span className="user-name">{user.username}</span>
+                        </div>
+                    </div>
+
+                    <button className="logout-btn" onClick={handleLogout}>
+                        Cerrar sesion
+                    </button>
+                </div>
             </aside>
 
             <main className="main-content">
@@ -135,7 +153,7 @@ const Dashboard = () => {
                         <h1>Control de asistencia</h1>
                         <p>Monitorea empleados, permisos y accesos desde un tablero claro y centralizado.</p>
                     </div>
-                    <button 
+                    <button
                         className="secondary-button"
                         onClick={() => navigate('/scanner')}
                     >
@@ -145,17 +163,32 @@ const Dashboard = () => {
 
                 <section className="stats-grid" aria-label="Indicadores principales">
                     <article className="stat-card">
-                        <span className="stat-label">Total empleados</span>
+                        <div className="stat-card-top">
+                            <span className="stat-label">Total empleados</span>
+                            <span className="stat-ico" aria-hidden="true">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                            </span>
+                        </div>
                         <strong ref={(el) => (statRefs.current.empleados = el)}>{stats.empleados}</strong>
                         <p>Personas registradas en el sistema.</p>
                     </article>
                     <article className="stat-card">
-                        <span className="stat-label">Administradores</span>
+                        <div className="stat-card-top">
+                            <span className="stat-label">Administradores</span>
+                            <span className="stat-ico" aria-hidden="true">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                            </span>
+                        </div>
                         <strong ref={(el) => (statRefs.current.admins = el)}>{stats.admins}</strong>
                         <p>Usuarios con permisos de gestion.</p>
                     </article>
                     <article className="stat-card">
-                        <span className="stat-label">Supervisores</span>
+                        <div className="stat-card-top">
+                            <span className="stat-label">Supervisores</span>
+                            <span className="stat-ico" aria-hidden="true">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>
+                            </span>
+                        </div>
                         <strong ref={(el) => (statRefs.current.supervisores = el)}>{stats.supervisores}</strong>
                         <p>Responsables de seguimiento operativo.</p>
                     </article>

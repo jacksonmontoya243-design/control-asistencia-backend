@@ -60,6 +60,9 @@ const Login = () => {
     const handleLogin = async (e) => {
         e.preventDefault();
 
+        // Evitar múltiples envíos mientras se autentica
+        if (cargando) return;
+
         setMensaje('');
         setCargando(true);
 
@@ -74,11 +77,26 @@ const Login = () => {
             console.error('Respuesta del servidor:', error.response?.data);
             console.error('Código:', error.response?.status);
 
-            setMensaje(
-                error.response?.data?.mensaje ||
-                error.response?.data?.message ||
-                `Error ${error.response?.status || 'de conexión'}`
-            );
+            if (error.response) {
+                // El servidor respondió con un error
+                const status = error.response?.status;
+                const data = error.response?.data;
+
+                if (status === 401) {
+                    setMensaje('Credenciales incorrectas. Verifica tu usuario y contraseña.');
+                } else if (data?.mensaje) {
+                    setMensaje(data.mensaje);
+                } else {
+                    setMensaje(`Error del servidor (${status}). Intenta nuevamente.`);
+                }
+            } else if (error.code === 'ECONNABORTED') {
+                setMensaje('La conexión tardó demasiado. Verifica tu conexión a internet e intenta nuevamente.');
+            } else if (!error.response) {
+                // Sin respuesta del servidor (error de red)
+                setMensaje('No se pudo conectar con el servidor. Verifica tu conexión a internet e intenta nuevamente.');
+            } else {
+                setMensaje('Ocurrió un error inesperado. Intenta nuevamente.');
+            }
         } finally {
             setCargando(false);
         }
@@ -122,6 +140,7 @@ const Login = () => {
                             }
                             autoComplete="username"
                             required
+                            disabled={cargando}
                         />
                     </label>
 
@@ -137,6 +156,7 @@ const Login = () => {
                             }
                             autoComplete="current-password"
                             required
+                            disabled={cargando}
                         />
                     </label>
 
@@ -156,6 +176,13 @@ const Login = () => {
                             : 'Ingresar'}
                     </button>
                 </form>
+
+                <div className="login-help">
+                    <p>
+                        ¿No tienes credenciales de acceso?{' '}
+                        <strong>Contacta al administrador de tu organización.</strong>
+                    </p>
+                </div>
             </section>
 
             <aside

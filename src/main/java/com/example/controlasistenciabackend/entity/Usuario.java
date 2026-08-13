@@ -34,4 +34,13 @@ public class Usuario {
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private Role role;
+
+    // Indica si el usuario está activo para poder iniciar sesión
+    // columnDefinition: los registros existentes reciben true al migrar
+    @Column(nullable = false, columnDefinition = "boolean default true")
+    private boolean activo = true;
+
+    // Asociación opcional con un empleado (ID de la tabla empleados)
+    @Column
+    private Long empleadoId;
 }

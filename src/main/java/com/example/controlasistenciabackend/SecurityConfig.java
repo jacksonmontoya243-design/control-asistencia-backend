@@ -53,8 +53,8 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         // Permitir preflight CORS (OPTIONS) sin autenticación
                         .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
-                        // Rutas públicas
-                        .requestMatchers("/api/auth/login", "/api/auth/register", "/qr/**").permitAll()
+                        // Rutas públicas (solo login y QR; el registro NO es público)
+                        .requestMatchers("/api/auth/login", "/qr/**").permitAll()
                         // Gestión de usuarios solo ADMIN
                         .requestMatchers("/api/usuarios/**").hasRole("ADMIN")
                         // Cualquier otra ruta requiere autenticación

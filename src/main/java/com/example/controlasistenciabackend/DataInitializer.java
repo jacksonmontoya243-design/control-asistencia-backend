@@ -36,6 +36,7 @@ public class DataInitializer implements CommandLineRunner {
                     if (!passwordEncoder.matches(adminPassword, adminExistente.getPassword())) {
                         adminExistente.setPassword(passwordEncoder.encode(adminPassword));
                         adminExistente.setRole(Role.ADMIN);
+                        adminExistente.setActivo(true);
                         usuarioRepository.save(adminExistente);
                         log.info("Credenciales del administrador actualizadas: {}", adminUsername);
                     } else {
@@ -47,6 +48,7 @@ public class DataInitializer implements CommandLineRunner {
                             .username(adminUsername)
                             .password(passwordEncoder.encode(adminPassword))
                             .role(Role.ADMIN)
+                            .activo(true)
                             .build();
                     usuarioRepository.save(admin);
                     log.info("Usuario administrador por defecto creado: {}", adminUsername);

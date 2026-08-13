@@ -57,8 +57,9 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
             if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
 
-                // Verificar que el usuario aún exista en BD
-                if (usuarioRepository.findByUsername(username).isEmpty()) {
+                // Verificar que el usuario aún exista y esté activo en BD
+                var usuarioOpt = usuarioRepository.findByUsername(username);
+                if (usuarioOpt.isEmpty() || !usuarioOpt.get().isActivo()) {
                     filterChain.doFilter(request, response);
                     return;
                 }

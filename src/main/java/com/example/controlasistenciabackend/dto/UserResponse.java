@@ -9,6 +9,8 @@ import com.example.controlasistenciabackend.entity.Role;
 public record UserResponse(
         Long id,
         String username,
-        Role role
+        Role role,
+        boolean activo,
+        Long empleadoId
 ) {
 }
