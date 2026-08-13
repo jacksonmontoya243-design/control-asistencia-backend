@@ -104,61 +104,72 @@ const Login = () => {
 
     return (
         <div className="login-page">
-            <section className="login-panel" aria-label="Inicio de sesion">
-                <div className="login-brand">
-                    <div className="brand-mark" aria-hidden="true">
-                        CA
-                    </div>
+            <div className="login-orb o1" aria-hidden="true" />
+            <div className="login-orb o2" aria-hidden="true" />
+            <div className="login-orb o3" aria-hidden="true" />
 
-                    <div>
+            <section className="login-panel" aria-label="Inicio de sesion">
+                <div className="login-card">
+                    <div className="login-card-head">
                         <p className="eyebrow">
                             Control de asistencia
                         </p>
 
                         <h1>Ingreso seguro</h1>
+
+                        <p className="login-copy">
+                            Accede al panel administrativo para consultar empleados,
+                            roles y registros de asistencia.
+                        </p>
                     </div>
-                </div>
 
-                <p className="login-copy">
-                    Accede al panel administrativo para consultar empleados,
-                    roles y registros de asistencia.
-                </p>
+                    <form
+                        className="login-form"
+                        onSubmit={handleLogin}
+                    >
+                        <label>
+                            Usuario
 
-                <form
-                    className="login-form"
-                    onSubmit={handleLogin}
-                >
-                    <label>
-                        Usuario
+                            <span className="input-wrap">
+                                <input
+                                    type="text"
+                                    placeholder="Ingresa tu usuario"
+                                    value={username}
+                                    onChange={(e) =>
+                                        setUsername(e.target.value)
+                                    }
+                                    autoComplete="username"
+                                    required
+                                    disabled={cargando}
+                                />
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+                                    <circle cx="12" cy="7" r="4" />
+                                </svg>
+                            </span>
+                        </label>
 
-                        <input
-                            type="text"
-                            placeholder="Ingresa tu usuario"
-                            value={username}
-                            onChange={(e) =>
-                                setUsername(e.target.value)
-                            }
-                            autoComplete="username"
-                            required
-                            disabled={cargando}
-                        />
-                    </label>
+                        <label>
+                            Contrasena
 
-                    <label>
-                        Contrasena
-
-                        <input
-                            type="password"
-                            placeholder="Ingresa tu contrasena"
-                            value={password}
-                            onChange={(e) =>
-                                setPassword(e.target.value)
-                            }
-                            autoComplete="current-password"
-                            required
-                            disabled={cargando}
-                        />
-                    </label>
+                            <span className="input-wrap">
+                                <input
+                                    type="password"
+                                    placeholder="Ingresa tu contrasena"
+                                    value={password}
+                                    onChange={(e) =>
+                                        setPassword(e.target.value)
+                                    }
+                                    autoComplete="current-password"
+                                    required
+                                    disabled={cargando}
+                                />
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                                    <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
+                                    <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+                                </svg>
+                            </span>
+                        </label>
 
                     {mensaje && (
                         <p className="login-message">
@@ -177,11 +188,12 @@ const Login = () => {
                     </button>
                 </form>
 
-                <div className="login-help">
-                    <p>
-                        ¿No tienes credenciales de acceso?{' '}
-                        <strong>Contacta al administrador de tu organización.</strong>
-                    </p>
+                    <div className="login-help">
+                        <p>
+                            ¿No tienes credenciales de acceso?{' '}
+                            <strong>Contacta al administrador de tu organización.</strong>
+                        </p>
+                    </div>
                 </div>
             </section>
 
