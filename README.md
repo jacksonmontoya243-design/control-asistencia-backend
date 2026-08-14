@@ -69,7 +69,7 @@ React SPA (Nginx/443) → API REST (Spring Boot) → Service → Repository → 
 **Endpoints protegidos por rol:**
 - Públicos: `POST /api/auth/login`, `GET /qr/**`
 - `ADMIN`: `POST /api/auth/register`, `POST/PUT/DELETE /api/empleados/**`, `/api/usuarios/**`
-- `ADMIN, SUPERVISOR`: `GET /api/empleados`, `GET /api/empleados/all`, `/count`, `/count-stats`
+- `ADMIN, SUPERVISOR`: `GET /api/empleados`, `GET /api/empleados/all`, `/count`, `/count-stats`, `GET /api/asistencias/consulta`
 - Autenticados: asistencias (`/api/asistencias/**`), dashboard
 
 ## 🔌 Endpoints de la API
@@ -89,6 +89,7 @@ React SPA (Nginx/443) → API REST (Spring Boot) → Service → Repository → 
 | GET | `/api/asistencias` | Lista todas (descendente) |
 | GET | `/api/asistencias/empleado/{id}` | Asistencias de un empleado |
 | GET | `/api/asistencias/reporte` | Reporte por empleado y/o rango de fechas |
+| GET | `/api/asistencias/consulta` | Consulta filtrada con datos del empleado (`termino`, `tipo`, `desde`, `hasta`) — ADMIN/SUPERVISOR |
 | GET | `/api/asistencias/resumen` | Resumen entradas/salidas en rango |
 | GET | `/api/usuarios` | Lista usuarios (solo ADMIN) |
 | PUT | `/api/usuarios/{id}/role` | Cambia rol (solo ADMIN) |

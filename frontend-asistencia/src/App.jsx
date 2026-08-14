@@ -8,6 +8,7 @@ import Dashboard from './components/Dashboard';
 import Empleados from './components/Empleados';
 import Usuarios from './components/Usuarios';
 import Scanner from './components/Scanner';
+import Asistencias from './components/Asistencias';
 import PageTransition from './components/PageTransition';
 
 function App() {
@@ -24,6 +25,11 @@ function App() {
                     <Route path="/empleados" element={
                         <ProtectedRoute>
                             <PageTransition><Empleados /></PageTransition>
+                        </ProtectedRoute>
+                    } />
+                    <Route path="/asistencias" element={
+                        <ProtectedRoute>
+                            <PageTransition><Asistencias /></PageTransition>
                         </ProtectedRoute>
                     } />
                     <Route path="/usuarios" element={

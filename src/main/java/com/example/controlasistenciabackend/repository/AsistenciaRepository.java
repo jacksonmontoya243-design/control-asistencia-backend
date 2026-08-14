@@ -23,6 +23,12 @@ public interface AsistenciaRepository extends JpaRepository<Asistencia, Long> {
     List<Asistencia> findByEmpleadoIdAndFechaHoraBetweenOrderByFechaHoraDesc(
             Long empleadoId, LocalDateTime desde, LocalDateTime hasta);
 
+    // Consulta: asistencias por tipo (con o sin rango de fechas)
+    List<Asistencia> findByTipoOrderByFechaHoraDesc(TipoAsistencia tipo);
+
+    List<Asistencia> findByTipoAndFechaHoraBetweenOrderByFechaHoraDesc(
+            TipoAsistencia tipo, LocalDateTime desde, LocalDateTime hasta);
+
     // Resumen: conteo de asistencias por tipo en un rango (opcional filtrar por empleado)
     long countByTipoAndFechaHoraBetween(TipoAsistencia tipo, LocalDateTime desde, LocalDateTime hasta);
 
