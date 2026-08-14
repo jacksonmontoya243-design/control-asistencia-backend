@@ -35,4 +35,10 @@ public class Asistencia {
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private TipoAsistencia tipo;
+
+    // Indica si el registro es un dato de demostración/prueba (no real)
+    // columnDefinition: los registros existentes reciben false al migrar
+    @Column(nullable = false, columnDefinition = "boolean default false")
+    @Builder.Default
+    private boolean demo = false;
 }
